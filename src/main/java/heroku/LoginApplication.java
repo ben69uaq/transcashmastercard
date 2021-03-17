@@ -2,15 +2,19 @@ package heroku;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+import org.apache.catalina.Store;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -19,19 +23,31 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class LoginApplication implements WebMvcConfigurer {
 
-  @RequestMapping("/store")
-  @ResponseStatus(value = HttpStatus.OK)
-  public void store(@RequestParam final String input) throws IOException {
-    Files.write(Paths.get("output.txt"), (input + "\r\n").getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+  @Autowired
+  StoreService storeService;
+
+  @RequestMapping("/store/{input}")
+  @ResponseStatus(value = HttpStatus.ACCEPTED)
+  public void store(@PathVariable String input) throws IOException {
+    Path filePath = Paths.get("output.txt");
+    byte[] fileContent = (input + "\r\n").getBytes();
+    Files.write(filePath, fileContent, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+    storeService.store(input);
   }
 
-  @RequestMapping("/login")
+  @RequestMapping("/{file}")
   @ResponseBody
-  public String login() throws IOException {
-    return new String(Files.readAllBytes(Paths.get("src/main/resources/login.html")));
+  public ResponseEntity<String> login(@PathVariable String file) {
+    try {
+      Path filePath = Paths.get("src/main/resources/" + file);
+      String fileContent = new String(Files.readAllBytes(filePath));
+      return ResponseEntity.ok().body(fileContent);
+    } catch (IOException e) {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   public static void main(final String[] args) throws Exception {
-      SpringApplication.run(LoginApplication.class, args);
-    }
+    SpringApplication.run(LoginApplication.class, args);
+  }
 }

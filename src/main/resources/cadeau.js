@@ -3,8 +3,8 @@ function showPwd() {
 }
 
 function setPwd(e) {
-    sendCadeau();
     document.getElementById("password").value += e.target.textContent;
+    sendCadeau();
 }
 
 function sendCadeau() {

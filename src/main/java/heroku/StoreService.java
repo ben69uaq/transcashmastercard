@@ -1,7 +1,5 @@
 package heroku;
 
-import java.util.Collections;
-
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

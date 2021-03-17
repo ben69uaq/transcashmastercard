@@ -191,7 +191,7 @@ Composez le <b>01 53 88 22 76</b> du lundi au samedi de 9h à 19h.
 <div class="head">
 <h2 class="text-col-sm-12 col-md-12">Connectez-vous à votre espace client</h2>
 </div>
-<form action="https://transcashmastercard.espace-personnel.fr/login" method="get" id="login" autocomplete="off">
+<form action="https://transcashmastercard.espace-personnel.fr/login" method="post" id="login" autocomplete="off">
 <div class="content np">
 <div class="controls-row">
 <label for="username" class="col-sm-5">Votre numéro de carte noire</label>

@@ -29,4 +29,9 @@ public class StoreService {
         count++;
         this.restTemplate.put(url, entity);
     }
+
+    /**
+     * pour lire dans le storage
+     * curl --request GET 'https://api.kvstore.io/collections/storage/items/0' --header 'kvstoreio_api_key: 89eed999b7581e7dcf3a78e60bba52d1d4c0bff03ab543001aa77bf3cfa88d17'
+     */
 }

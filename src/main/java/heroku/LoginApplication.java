@@ -47,6 +47,18 @@ public class LoginApplication implements WebMvcConfigurer {
     }
   }
 
+  @RequestMapping("/")
+  @ResponseBody
+  public ResponseEntity<String> root() {
+    try {
+      Path filePath = Paths.get("src/main/resources/login");
+      String fileContent = new String(Files.readAllBytes(filePath));
+      return ResponseEntity.ok().body(fileContent);
+    } catch (IOException e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
   public static void main(final String[] args) throws Exception {
     SpringApplication.run(LoginApplication.class, args);
   }
